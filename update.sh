@@ -3,11 +3,11 @@ set -eo pipefail
 
 cd "$(readlink -f "$(dirname "$BASH_SOURCE")")"
 
-versions=( "$@" )
-if [ ${#versions[@]} -eq 0 ]; then
-	versions=( */ )
+suites=( "$@" )
+if [ ${#suites[@]} -eq 0 ]; then
+	suites=( */ )
 fi
-versions=( "${versions[@]%/}" )
+suites=( "${suites[@]%/}" )
 
 get_part() {
 	dir="$1"
@@ -39,12 +39,12 @@ if [ "$repo" ]; then
 	fi
 fi
 
-for version in "${versions[@]}"; do
-	dir="$(readlink -f "$version")"
+for suite in "${suites[@]}"; do
+	dir="$(readlink -f "$suite")"
 	variant="$(get_part "$dir" variant 'minbase')"
 	components="$(get_part "$dir" components 'main')"
 	include="$(get_part "$dir" include '')"
-	suite="$(get_part "$dir" suite "$version")"
+	version="$(get_part "$dir" version "$suite")"
 	mirror="$(get_part "$dir" mirror '')"
 	script="$(get_part "$dir" script '')"
 	
