@@ -1,1 +1,1 @@
-FROM ubuntu-deboostrap:wily
+FROM ubuntu-debootstrap:wily

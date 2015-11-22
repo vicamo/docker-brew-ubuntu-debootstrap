@@ -1,1 +1,1 @@
-FROM ubuntu-deboostrap:vivid
+FROM ubuntu-debootstrap:vivid

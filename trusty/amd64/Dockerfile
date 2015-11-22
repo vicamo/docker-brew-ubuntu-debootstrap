@@ -1,1 +1,1 @@
-FROM ubuntu-deboostrap:trusty
+FROM ubuntu-debootstrap:trusty

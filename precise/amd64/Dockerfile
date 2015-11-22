@@ -1,1 +1,1 @@
-FROM ubuntu-deboostrap:precise
+FROM ubuntu-debootstrap:precise
