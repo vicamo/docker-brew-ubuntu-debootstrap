@@ -1,0 +1,3 @@
+mkimage.sh -d . debootstrap --arch=i386 --variant=minbase --components=main,universe --include=inetutils-ping,iproute2 vivid http://archive.ubuntu.com/ubuntu
+
+https://github.com/docker/docker/blob/master/contrib/mkimage.sh
