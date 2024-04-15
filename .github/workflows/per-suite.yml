@@ -214,18 +214,9 @@ jobs:
                 digest=
                 if [ -z "${DRY_RUN}" ]; then
                   # generate: linux/amd64:docker.io/library/ubuntu:noble@sha256:69ce9399...
-                  result="$(docker buildx imagetools inspect "${DISTRO}:${CODENAME}${flavor:+-${flavor}}" | \
+                  result="$(docker buildx imagetools inspect "${REPOSITORY}:${CODENAME}${flavor:+-${flavor}}" | \
                       awk '/Name: +\S+@sha256:/ { digest=$2; getline; getline; platform=$2; print platform ":" digest}' | \
                       grep "^${platform}:" || true)"
-                  if [ -z "${result}" ]; then
-                    result="$(docker buildx imagetools inspect "${REPOSITORY}:${CODENAME}${flavor:+-${flavor}}" | \
-                        awk '/Name: +\S+@sha256:/ { digest=$2; getline; getline; platform=$2; print platform ":" digest}' | \
-                        grep "^${platform}:" || true)"
-                    if [ -z "${result}" ]; then
-                      result="$(docker buildx imagetools inspect "${tag}" | \
-                          awk '/^Name:/ { name=$2; getline; getline; digest=$2; print "'"${platform}:"'" name "@" digest}' || true)"
-                    fi
-                  fi
                   digest="${result#"${platform}":}"
                 fi
 
