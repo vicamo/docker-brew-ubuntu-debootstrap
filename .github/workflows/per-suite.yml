@@ -245,7 +245,7 @@ jobs:
             fi
 
             ${DRY_RUN:+echo} docker buildx imagetools create \
-                "${labels[@]}" "${tags[@]}" "${annotations[@]}" "${digests[@]}"
+                "${tags[@]}" "${annotations[@]}" "${digests[@]}"
 
             echo "::endgroup::"
           done
