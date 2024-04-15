@@ -228,7 +228,7 @@ jobs:
                   exit 1
                 fi
               else
-                docker inspect "${tag}"
+                cat "${context_dir}/docker.metadata"
                 digests+=("$(jq -c -M -r '."containerimage.digest"' < "${context_dir}/docker.metadata")")
               fi
 
