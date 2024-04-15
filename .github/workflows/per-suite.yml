@@ -169,15 +169,21 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ inputs.repository }}
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
       - name: Build images
         run: |
           load_or_push='--push'
           [ -z "${DRY_RUN}" ] || load_or_push='--load'
 
-          annotations=()
+          manifest_annotations=()
+          index_annotations=()
           while read -r line; do
-            annotations+=(--annotation "${line}")
+            case "$line" in
+            manifest:*) manifest_annotations+=(--annotation "${line}") ;;
+            index:*)    index_annotations+=(--annotation "${line}") ;;
+            esac
           done <<<"${DOCKER_METADATA_OUTPUT_ANNOTATIONS}"
 
           labels=()
@@ -201,7 +207,7 @@ jobs:
               if ! (printf "FROM scratch\nADD rootfs.tar.xz /\nCMD [\"/bin/bash\"]" | \
                   docker buildx build "${load_or_push}" \
                       --platform "${platform}" \
-                      "${labels[@]}" "${tags[@]}" "${annotations[@]}" \
+                      "${labels[@]}" "${tags[@]}" "${manifest_annotations[@]}" \
                       --metadata-file "${context_dir}/docker.metadata" \
                       --file - "${context_dir}"); then
                 digest=
@@ -245,7 +251,7 @@ jobs:
             fi
 
             ${DRY_RUN:+echo} docker buildx imagetools create \
-                "${tags[@]}" "${annotations[@]}" "${digests[@]}"
+                "${tags[@]}" "${index_annotations[@]}" "${digests[@]}"
 
             echo "::endgroup::"
           done
