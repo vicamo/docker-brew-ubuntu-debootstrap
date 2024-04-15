@@ -228,7 +228,7 @@ jobs:
                   exit 1
                 fi
               else
-                cat "${context_dir}/docker.metadata"
+                cat "${context_dir}/docker.metadata"; echo
                 digests+=("$(jq -c -M -r '."containerimage.digest"' < "${context_dir}/docker.metadata")")
               fi
 
