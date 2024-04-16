@@ -7,6 +7,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      include_eol:
+        description: 'Build also EOL-ed suites'
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,6 +20,9 @@ concurrency:
 
 permissions:
   contents: read
+
+env:
+  INCLUDE_EOL: ${{ inputs.include_eol && 'true' || '' }}
 
 jobs:
   matrix:
@@ -124,6 +133,11 @@ jobs:
                                                    }) |
                                               tostring)
                             })')"
+
+          if [ -z "${INCLUDE_EOL}" ]; then
+            codenames="$(echo "${codenames}" | jq -c -M 'map(select(.active))')"
+          fi
+
           echo "::group::Built JSON(codenames)"
           echo "${codenames}" | jq
           echo "::endgroup::"
