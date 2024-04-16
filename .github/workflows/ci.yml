@@ -63,8 +63,7 @@ jobs:
           disabled_codename='["experimental"]'
           disabled_arches='["hurd-amd64", "hurd-i386", "ia64", "kfreebsd-amd64", "kfreebsd-i386", "s390", "x32"]'
           known_failures='[
-            ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/52"],
-            ["bullseye", "arm64", "https://github.com/vicamo/docker-brew-debian/issues/53"]
+            ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/52"]
           ]'
           pin_timestamp='[
             ["buster", "armel", "2024/04/13 14:49:39"],
