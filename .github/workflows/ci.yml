@@ -74,6 +74,18 @@ jobs:
             ["buster", "ppc64el", "2024/04/13 14:49:39"],
             ["buster", "s390x", "2024/04/13 14:49:39"]
           ]'
+          pin_qemu='[
+            ["any", "alpha", "ubuntu"],
+            ["any", "hppa", "ubuntu"],
+            ["any", "m68k", "ubuntu"],
+            ["any", "mips", "ubuntu"],
+            ["any", "mipsel", "ubuntu"],
+            ["any", "powerpc", "ubuntu"],
+            ["any", "ppc64", "ubuntu"],
+            ["any", "sh4", "ubuntu"],
+            ["any", "sparc", "ubuntu"],
+            ["any", "sparc64", "ubuntu"]
+          ]'
 
           codenames="$(echo "${FULL_JSON}" |
               jq -c -M 'map(select(.codename as $c |
@@ -104,6 +116,12 @@ jobs:
                                                                   '"${pin_timestamp}"' |
                                                                   map(select((.[0] == $s.codename) and (.[1] == $arch)) | .[2]) |
                                                                   first),
+                                                     "qemu":(. as $arch |
+                                                             '"${pin_qemu}"' |
+                                                             map(select(((.[0] == $s.codename) and (.[1] == $arch))
+                                                                        or ((.[0] == "any") and (.[1] == $arch))
+                                                                        or ((.[0] == $s.codename) and (.[1] == "any"))) | .[2]) |
+                                                             first),
                                                    }) |
                                               tostring)
                             })')"

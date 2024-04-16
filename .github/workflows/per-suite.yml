@@ -63,9 +63,14 @@ jobs:
       # Use the snapshot from yesterday to preven under sync.
       SNAPSHOT_DATE: ${{ matrix.timestamp || 'yesterday' }}
     steps:
-      - # Add support for more platforms with QEMU (optional)
-        name: Set up QEMU
-        if: matrix.arch != 'amd64' && matrix.arch != 'i386'
+      - name: Set up QEMU (docker/setup-qemu-action)
+        if: matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up QEMU (Ubuntu)
+        if:
+          matrix.qemu == 'ubuntu' && matrix.arch != 'amd64' && matrix.arch !=
+          'i386'
         run: |
           echo "deb http://archive.ubuntu.com/ubuntu/ devel main universe" | \
               sudo tee /etc/apt/sources.list.d/devel.list
