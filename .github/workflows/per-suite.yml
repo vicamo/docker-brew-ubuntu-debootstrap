@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       distribution:
-        description: 'Distribution name, e.g. debian.'
+        description: 'Distribution name, e.g. ubuntu.'
         type: string
         required: true
       codename:
@@ -64,13 +64,15 @@ jobs:
       SNAPSHOT_DATE: ${{ matrix.timestamp || 'yesterday' }}
     steps:
       - name: Set up QEMU (docker/setup-qemu-action)
-        if: matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
+        if:
+          matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
+          && matrix.arch != 'lpia'
         uses: docker/setup-qemu-action@v3
 
       - name: Set up QEMU (Ubuntu)
         if:
           matrix.qemu == 'ubuntu' && matrix.arch != 'amd64' && matrix.arch !=
-          'i386'
+          'i386' && matrix.arch != 'lpia'
         run: |
           echo "deb http://archive.ubuntu.com/ubuntu/ devel main universe" | \
               sudo tee /etc/apt/sources.list.d/devel.list
@@ -106,24 +108,17 @@ jobs:
         working-directory: debuerreotype
         continue-on-error: ${{ matrix.known_failure != '' }}
         run: |
-          # Allow building debian experimental
-          echo "RUN ln -s sid /usr/share/debootstrap/scripts/experimental" >> Dockerfile
-
-          epoch="$(TZ=UTC date --date "${SNAPSHOT_DATE}" +%s)"
-          serial="$(TZ=UTC date --date "@$epoch" +%Y%m%d)"
-
           mkdir output
-          output_dir="output/${serial}/${ARCH}/${CODENAME}"
+          output_dir="output/ubuntu/${ARCH}/${CODENAME}"
 
           args=()
           [ -n "${ACTIVE}" ] || args+=('--eol')
-          [ "${USE_PORTS}" == 'false' ] || args+=('--ports')
           args+=(--arch "${ARCH}")
 
           ret=0
           ./docker-run.sh --no-build --image local/debuerreotype:latest \
               "./examples/${DISTRO}.sh" "${args[@]}" \
-              output "${CODENAME}" "@${epoch}" || ret=$?
+              output "${CODENAME}" || ret=$?
           if [[ ${ret} -eq 0 ]]; then
             if [ -n "${KNOWN_FAILURE}" ]; then
               echo "::error title=Expected failure succeeds::Expect ${DISTRO}/${CODENAME}:${ARCH} to fail but passed. See ${KNOWN_FAILURE}"
