@@ -87,8 +87,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          repository: debuerreotype/debuerreotype
-          ref: master
+          repository: ${{ github.repository }}
+          ref: debuerreotype
           path: debuerreotype
 
       - name: Debuerreotype
