@@ -219,6 +219,9 @@ jobs:
               tags=(--tag "${tag}")
               if [ -n "${SUITE}" ]; then
                 tags+=(--tag "${REPOSITORY}:${SUITE}-${arch}${flavor:+-${flavor}}")
+                if [ "${SUITE}" = "stable" ]; then
+                  tags+=(--tag "${REPOSITORY}:latest-${arch}${flavor:+-${flavor}}")
+                fi
               fi
 
               if ! (printf "FROM scratch\nADD rootfs.tar.xz /\nCMD [\"/bin/bash\"]" | \
@@ -256,6 +259,9 @@ jobs:
             tags=(--tag "${tag}")
             if [ -n "${SUITE}" ]; then
               tags+=(--tag "${REPOSITORY}:${SUITE}${flavor:+-${flavor}}")
+              if [ "${SUITE}" = "stable" ]; then
+                tags+=(--tag "${REPOSITORY}:latest${flavor:+-${flavor}}")
+              fi
             fi
 
             ${DRY_RUN:+echo} docker buildx imagetools create \
