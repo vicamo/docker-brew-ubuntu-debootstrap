@@ -83,6 +83,16 @@ jobs:
         with:
           version: v0.12.0
 
+      - name: Download debuerreotype image tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: debuerreotype
+          path: /tmp
+      - name: Load debuerreotype image
+        run: |
+          docker load --input /tmp/debuerreotype.tar
+          docker images ls -a
+
       - name: Checkout Debuerreotype
         uses: actions/checkout@v4
         with:
@@ -111,7 +121,8 @@ jobs:
           args+=(--arch "${ARCH}")
 
           ret=0
-          ./docker-run.sh "./examples/${DISTRO}.sh" "${args[@]}" \
+          ./docker-run.sh --no-build --image local/debuerreotype:latest \
+              "./examples/${DISTRO}.sh" "${args[@]}" \
               output "${CODENAME}" "@${epoch}" || ret=$?
           if [[ ${ret} -eq 0 ]]; then
             if [ -n "${KNOWN_FAILURE}" ]; then
