@@ -1,1 +1,1 @@
-# Multiarch Debian Docker Image
+# Multiarch Ubuntu Docker Image
