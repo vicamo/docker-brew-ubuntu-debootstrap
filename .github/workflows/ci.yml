@@ -154,7 +154,7 @@ jobs:
         with:
           fetch-depth: 1
           repository: ${{ github.repository }}
-          ref: debuerreotype
+          ref: helper/20240509
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

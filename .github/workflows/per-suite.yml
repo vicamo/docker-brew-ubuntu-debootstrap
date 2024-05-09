@@ -98,7 +98,7 @@ jobs:
         with:
           fetch-depth: 1
           repository: ${{ github.repository }}
-          ref: debuerreotype
+          ref: helper/20240509
           path: debuerreotype
 
       - name: Debuerreotype
