@@ -7,6 +7,10 @@ on:
         description: 'Distribution name, e.g. ubuntu.'
         type: string
         required: true
+      release:
+        description: 'Ubuntu release number.'
+        type: string
+        required: true
       codename:
         description: 'Debian codename.'
         type: string
@@ -42,6 +46,7 @@ permissions:
 
 env:
   DISTRO: ${{ inputs.distribution }}
+  RELEASE: ${{ inputs.release }}
   CODENAME: ${{ inputs.codename }}
   SUITE: ${{ inputs.suite }}
   ACTIVE: ${{ inputs.active && 'true' || '' }}
@@ -219,6 +224,8 @@ jobs:
                 fi
               fi
 
+              tags+=(--tag "${REPOSITORY}:${RELEASE}-${arch}${flavor:+-${flavor}}")
+
               if ! (printf "FROM scratch\nADD rootfs.tar.xz /\nCMD [\"/bin/bash\"]" | \
                   docker buildx build "${load_or_push}" \
                       --platform "${platform}" \
@@ -258,6 +265,8 @@ jobs:
                 tags+=(--tag "${REPOSITORY}:latest${flavor:+-${flavor}}")
               fi
             fi
+
+            tags+=(--tag "${REPOSITORY}:${RELEASE}${flavor:+-${flavor}}")
 
             ${DRY_RUN:+echo} docker buildx imagetools create \
                 "${tags[@]}" "${index_annotations[@]}" "${digests[@]}"

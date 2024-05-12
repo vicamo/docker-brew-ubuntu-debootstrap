@@ -131,6 +131,7 @@ jobs:
                             $s |
                             {
                               "distribution":.distribution,
+                              "release":.release,
                               "codename":.codename,
                               "suite":.suite,
                               "active":.active,
@@ -214,6 +215,7 @@ jobs:
       password: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
       distribution: ${{ matrix.distribution }}
+      release: ${{ matrix.release }}
       codename: ${{ matrix.codename }}
       suite: ${{ matrix.suite }}
       active: ${{ matrix.active }}
