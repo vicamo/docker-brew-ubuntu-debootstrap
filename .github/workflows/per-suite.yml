@@ -208,6 +208,7 @@ jobs:
             labels+=(--label "${line}")
           done <<<"${DOCKER_METADATA_OUTPUT_LABELS}"
 
+          version=
           for flavor in "" slim; do
             digests=()
 
@@ -222,6 +223,19 @@ jobs:
                 if [ "${SUITE}" = "stable" ]; then
                   tags+=(--tag "${REPOSITORY}:latest-${arch}${flavor:+-${flavor}}")
                 fi
+              fi
+
+              if [ -z "${version}" ]; then
+                version=$(< "${context_dir}/rootfs.debian_version")
+              fi
+              if [[ "${version}" =~ [0-9]+\.[0-9]+ ]]; then
+                ver="${version}"
+                while [ -n "${ver}" ]; do
+                  tags+=(--tag "${REPOSITORY}:${ver}-${arch}${flavor:+-${flavor}}")
+
+                  [ "${ver}" != "${ver%.*}" ] || break
+                  ver="${ver%.*}"
+                done
               fi
 
               if ! (printf "FROM scratch\nADD rootfs.tar.xz /\nCMD [\"/bin/bash\"]" | \
@@ -262,6 +276,16 @@ jobs:
               if [ "${SUITE}" = "stable" ]; then
                 tags+=(--tag "${REPOSITORY}:latest${flavor:+-${flavor}}")
               fi
+            fi
+
+            if [[ "${version}" =~ [0-9]+\.[0-9]+ ]]; then
+              ver="${version}"
+              while [ -n "${ver}" ]; do
+                tags+=(--tag "${REPOSITORY}:${ver}${flavor:+-${flavor}}")
+
+                [ "${ver}" != "${ver%.*}" ] || break
+                ver="${ver%.*}"
+              done
             fi
 
             ${DRY_RUN:+echo} docker buildx imagetools create \
