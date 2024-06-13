@@ -188,8 +188,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          repository: ${{ github.repository }}
-          ref: helper/20240509
+          repository: vicamo/docker_debuerreotype
+          ref: 20250201
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
