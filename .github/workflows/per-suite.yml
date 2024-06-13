@@ -116,7 +116,7 @@ jobs:
           output_dir="output/${serial}/${ARCH}/${CODENAME}"
 
           args=()
-          [ -n "${ACTIVE}" ] || args+=('--eol')
+          [ -n "${ACTIVE}" ] && [ -z "${{ matrix.timestamp }}" ] || args+=('--eol')
           [ "${USE_PORTS}" == 'false' ] || args+=('--ports')
           args+=(--arch "${ARCH}")
 
