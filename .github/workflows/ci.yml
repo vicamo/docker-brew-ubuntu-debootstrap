@@ -11,10 +11,13 @@ on:
     - cron: '30 3 * * 0'
   workflow_dispatch:
     inputs:
-      include_eol:
-        description: 'Build also EOL-ed suites'
-        type: boolean
-        default: false
+      wanted:
+        description: >
+          Build selected suites. Use "all" for all buildable suites, "active"
+          for all non-EOL suites, "eol" for all EOL-ed suites, or
+          comma-separated codenames. Default is "active".
+        type: string
+        default: 'active'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,9 +25,6 @@ concurrency:
 
 permissions:
   contents: read
-
-env:
-  INCLUDE_EOL: ${{ inputs.include_eol && 'true' || '' }}
 
 jobs:
   matrix:
@@ -137,9 +137,22 @@ jobs:
                                               tostring)
                             })')"
 
-          if [ -z "${INCLUDE_EOL}" ]; then
+          case "${{ inputs.wanted || 'active' }}" in
+          all) ;;
+          active)
             codenames="$(echo "${codenames}" | jq -c -M 'map(select(.active))')"
-          fi
+            ;;
+          eol)
+            codenames="$(echo "${codenames}" | jq -c -M 'map(select(.active | not))')"
+            ;;
+          *)
+            wanted="$(echo "${{ inputs.wanted }}" | sed 's/ //g; s/\([^,]\+\)/"\1"/g')"
+            codenames="$(echo "${codenames}" |
+                jq -c -M 'map(. as $row |
+                              ['"${wanted}"'] | .[] | select($row.codename == .) |
+                              $row)')"
+            ;;
+          esac
 
           echo "::group::Built JSON(codenames)"
           echo "${codenames}" | jq
