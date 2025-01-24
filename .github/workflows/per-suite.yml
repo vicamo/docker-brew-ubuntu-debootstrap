@@ -117,7 +117,7 @@ jobs:
           output_dir="output/ubuntu/${ARCH}/${CODENAME}"
 
           args=()
-          [ -n "${ACTIVE}" ] || args+=('--eol')
+          [ -n "${ACTIVE}" ] && [ -z "${{ matrix.timestamp }}" ] || args+=('--eol')
           args+=(--arch "${ARCH}")
 
           ret=0
@@ -138,6 +138,16 @@ jobs:
           fi
 
           echo "output_dir=debuerreotype/${output_dir}" | tee -a "${GITHUB_OUTPUT}"
+
+      - name: Load and test image
+        if: ${{ steps.debuerreotype.outcome == 'success' }}
+        run: |
+          tag="${REPOSITORY}:${CODENAME}-${ARCH}"
+          printf "FROM scratch\nADD rootfs.tar.xz /\nCMD [\"/bin/bash\"]" | \
+              docker buildx build --load --platform "${PLATFORM}" \
+                  --tag "${tag}" \
+                  --file - "${{ steps.debuerreotype.outputs.output_dir}}"
+          docker run --rm "${tag}" apt-get update
 
       - uses: actions/upload-artifact@v4
         if: ${{ steps.debuerreotype.outcome == 'success' }}
