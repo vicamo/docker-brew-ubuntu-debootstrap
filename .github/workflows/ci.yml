@@ -81,9 +81,7 @@ jobs:
             "s390",
             "x32"
           ]'
-          known_failures='[
-            ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/52"]
-          ]'
+          known_failures='[]'
           pin_timestamp='[
             ["buster", "armel", "2024/04/13 14:49:39"],
             ["buster", "mips", "2024/04/13 14:49:39"],
@@ -105,6 +103,12 @@ jobs:
             ["any", "sh4", "deb"],
             ["any", "sparc", "deb"],
             ["any", "sparc64", "deb"]
+          ]'
+          include_pkgs='[
+            ["sid", "loong64", "gpgv"],
+            ["sid", "powerpc", "gpgv"],
+            ["sid", "ppc64", "gpgv"],
+            ["sid", "sparc64", "gpgv"]
           ]'
 
           codenames="$(echo "${FULL_JSON}" |
@@ -141,6 +145,10 @@ jobs:
                                                              map(select(((.[0] == $s.codename) and (.[1] == $arch))
                                                                         or ((.[0] == "any") and (.[1] == $arch))
                                                                         or ((.[0] == $s.codename) and (.[1] == "any"))) | .[2]) |
+                                                             first),
+                                                     "pkgs":(. as $arch |
+                                                             '"${include_pkgs}"' |
+                                                             map(select(((.[0] == $s.codename) and (.[1] == $arch))) | .[2]) |
                                                              first),
                                                    }) |
                                               tostring)

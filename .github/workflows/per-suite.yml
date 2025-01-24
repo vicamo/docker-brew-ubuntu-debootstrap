@@ -62,6 +62,7 @@ jobs:
       KNOWN_FAILURE: ${{ matrix.known_failure }}
       # Use the snapshot from yesterday to preven under sync.
       SNAPSHOT_DATE: ${{ matrix.timestamp || 'yesterday' }}
+      INCLUDE_PKGS: ${{ matrix.pkgs }}
     steps:
       - name: Set up QEMU (docker/setup-qemu-action)
         if: matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
@@ -116,6 +117,7 @@ jobs:
           args=()
           [ -n "${ACTIVE}" ] && [ -z "${{ matrix.timestamp }}" ] || args+=('--eol')
           [ "${USE_PORTS}" == 'false' ] || args+=('--ports')
+          [ -z "${INCLUDE_PKGS}" ] || args+=(--include "${INCLUDE_PKGS}")
           args+=(--arch "${ARCH}")
 
           ret=0
