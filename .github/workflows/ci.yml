@@ -86,16 +86,16 @@ jobs:
             ["buster", "s390x", "2024/04/13 14:49:39"]
           ]'
           pin_qemu='[
-            ["any", "alpha", "ubuntu"],
-            ["any", "hppa", "ubuntu"],
-            ["any", "m68k", "ubuntu"],
-            ["any", "mips", "ubuntu"],
-            ["any", "mipsel", "ubuntu"],
-            ["any", "powerpc", "ubuntu"],
-            ["any", "ppc64", "ubuntu"],
-            ["any", "sh4", "ubuntu"],
-            ["any", "sparc", "ubuntu"],
-            ["any", "sparc64", "ubuntu"]
+            ["any", "alpha", "deb"],
+            ["any", "hppa", "deb"],
+            ["any", "m68k", "deb"],
+            ["any", "mips", "deb"],
+            ["any", "mipsel", "deb"],
+            ["any", "powerpc", "deb"],
+            ["any", "ppc64", "deb"],
+            ["any", "sh4", "deb"],
+            ["any", "sparc", "deb"],
+            ["any", "sparc64", "deb"]
           ]'
 
           codenames="$(echo "${FULL_JSON}" |
