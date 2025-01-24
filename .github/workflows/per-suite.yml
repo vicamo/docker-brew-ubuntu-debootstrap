@@ -91,7 +91,7 @@ jobs:
       - name: Load debuerreotype image
         run: |
           docker load --input /tmp/debuerreotype.tar
-          docker images ls -a
+          docker images -a
 
       - name: Checkout Debuerreotype
         uses: actions/checkout@v4
