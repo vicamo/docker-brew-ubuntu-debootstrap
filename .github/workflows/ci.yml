@@ -82,7 +82,6 @@ jobs:
             "x32"
           ]'
           known_failures='[
-            ["trixie", "riscv64", "https://github.com/vicamo/docker-brew-debian/issues/66"],
             ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/52"]
           ]'
           pin_timestamp='[
