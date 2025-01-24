@@ -95,6 +95,7 @@ jobs:
           pin_qemu='[
             ["any", "alpha", "deb"],
             ["any", "hppa", "deb"],
+            ["any", "loong64", "deb"],
             ["any", "m68k", "deb"],
             ["any", "mips", "deb"],
             ["any", "mipsel", "deb"],
