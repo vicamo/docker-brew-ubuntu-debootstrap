@@ -98,6 +98,7 @@ jobs:
             ["any", "loong64", "deb"],
             ["any", "m68k", "deb"],
             ["any", "mips", "deb"],
+            ["any", "mips64el", "deb"],
             ["any", "mipsel", "deb"],
             ["any", "powerpc", "deb"],
             ["any", "ppc64", "deb"],
