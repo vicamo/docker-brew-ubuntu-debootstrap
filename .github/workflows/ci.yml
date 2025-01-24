@@ -72,11 +72,16 @@ jobs:
             ["sh4", "linux/sh4"]
           ]'
           disabled_codename='["experimental"]'
-          disabled_arches='["hurd-amd64", "hurd-i386", "ia64", "kfreebsd-amd64", "kfreebsd-i386", "s390", "x32"]'
-          known_failures='[
-            ["trixie", "riscv64", "https://github.com/vicamo/docker-brew-debian/issues/66"],
-            ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/52"]
+          disabled_arches='[
+            "hurd-amd64",
+            "hurd-i386",
+            "ia64",
+            "kfreebsd-amd64",
+            "kfreebsd-i386",
+            "s390",
+            "x32"
           ]'
+          known_failures='[]'
           pin_timestamp='[
             ["buster", "armel", "2024/04/13 14:49:39"],
             ["buster", "mips", "2024/04/13 14:49:39"],
@@ -86,16 +91,24 @@ jobs:
             ["buster", "s390x", "2024/04/13 14:49:39"]
           ]'
           pin_qemu='[
-            ["any", "alpha", "ubuntu"],
-            ["any", "hppa", "ubuntu"],
-            ["any", "m68k", "ubuntu"],
-            ["any", "mips", "ubuntu"],
-            ["any", "mipsel", "ubuntu"],
-            ["any", "powerpc", "ubuntu"],
-            ["any", "ppc64", "ubuntu"],
-            ["any", "sh4", "ubuntu"],
-            ["any", "sparc", "ubuntu"],
-            ["any", "sparc64", "ubuntu"]
+            ["any", "alpha", "deb"],
+            ["any", "hppa", "deb"],
+            ["any", "loong64", "deb"],
+            ["any", "m68k", "deb"],
+            ["any", "mips", "deb"],
+            ["any", "mips64el", "deb"],
+            ["any", "mipsel", "deb"],
+            ["any", "powerpc", "deb"],
+            ["any", "ppc64", "deb"],
+            ["any", "sh4", "deb"],
+            ["any", "sparc", "deb"],
+            ["any", "sparc64", "deb"]
+          ]'
+          include_pkgs='[
+            ["sid", "loong64", "gpgv"],
+            ["sid", "powerpc", "gpgv"],
+            ["sid", "ppc64", "gpgv"],
+            ["sid", "sparc64", "gpgv"]
           ]'
 
           codenames="$(echo "${FULL_JSON}" |
@@ -132,6 +145,10 @@ jobs:
                                                              map(select(((.[0] == $s.codename) and (.[1] == $arch))
                                                                         or ((.[0] == "any") and (.[1] == $arch))
                                                                         or ((.[0] == $s.codename) and (.[1] == "any"))) | .[2]) |
+                                                             first),
+                                                     "pkgs":(. as $arch |
+                                                             '"${include_pkgs}"' |
+                                                             map(select(((.[0] == $s.codename) and (.[1] == $arch))) | .[2]) |
                                                              first),
                                                    }) |
                                               tostring)

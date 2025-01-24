@@ -62,26 +62,25 @@ jobs:
       KNOWN_FAILURE: ${{ matrix.known_failure }}
       # Use the snapshot from yesterday to preven under sync.
       SNAPSHOT_DATE: ${{ matrix.timestamp || 'yesterday' }}
+      INCLUDE_PKGS: ${{ matrix.pkgs }}
     steps:
       - name: Set up QEMU (docker/setup-qemu-action)
         if: matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
         uses: docker/setup-qemu-action@v3
 
       - name: Set up QEMU (Ubuntu)
-        if:
-          matrix.qemu == 'ubuntu' && matrix.arch != 'amd64' && matrix.arch !=
-          'i386'
+        if: matrix.qemu != '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
         run: |
-          echo "deb http://archive.ubuntu.com/ubuntu/ devel main universe" | \
-              sudo tee /etc/apt/sources.list.d/devel.list
           sudo apt-get update -q
-          sudo apt-get install -yq binfmt-support qemu-user-static systemd
-          ls -al /proc/sys/fs/binfmt_misc
+          sudo apt-get install -yq binfmt-support qemu-user-static
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
           version: v0.12.0
+
+      - name: Dump QEMU supportness
+        run: ls -al /proc/sys/fs/binfmt_misc
 
       - name: Download debuerreotype image tarball
         uses: actions/download-artifact@v4
@@ -91,7 +90,7 @@ jobs:
       - name: Load debuerreotype image
         run: |
           docker load --input /tmp/debuerreotype.tar
-          docker images ls -a
+          docker images -a
 
       - name: Checkout Debuerreotype
         uses: actions/checkout@v4
@@ -118,6 +117,7 @@ jobs:
           args=()
           [ -n "${ACTIVE}" ] && [ -z "${{ matrix.timestamp }}" ] || args+=('--eol')
           [ "${USE_PORTS}" == 'false' ] || args+=('--ports')
+          [ -z "${INCLUDE_PKGS}" ] || args+=(--include "${INCLUDE_PKGS}")
           args+=(--arch "${ARCH}")
 
           ret=0
