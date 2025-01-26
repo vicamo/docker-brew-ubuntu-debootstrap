@@ -18,6 +18,10 @@ on:
           comma-separated codenames. Default is "active".
         type: string
         default: 'active'
+      dry_run:
+        description: 'Do not push to registry'
+        type: boolean
+        default: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,7 +51,7 @@ jobs:
           platforms='[
             ["amd64", "linux/amd64"],
             ["arm", "linux/arm"],
-            ["arm64", "linux/arm64/v8"],
+            ["arm64", "linux/arm64"],
             ["armel", "linux/arm/v5"],
             ["armhf", "linux/arm/v7"],
             ["i386", "linux/386"],
@@ -258,4 +262,6 @@ jobs:
       active: ${{ matrix.active }}
       architectures: ${{ matrix.architectures }}
       repository: 'vicamo/ubuntu'
-      dry_run: ${{ github.ref_name != 'main' }}
+      dry_run:
+        ${{ github.ref_name != 'main' || (github.event_name ==
+        'workflow_dispatch' && inputs.dry_run) }}
