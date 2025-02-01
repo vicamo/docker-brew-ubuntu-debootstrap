@@ -105,6 +105,7 @@ jobs:
         id: debuerreotype
         working-directory: debuerreotype
         continue-on-error: ${{ matrix.known_failure != '' }}
+        timeout-minutes: 20
         run: |
           # Allow building debian experimental
           echo "RUN ln -s sid /usr/share/debootstrap/scripts/experimental" >> Dockerfile
