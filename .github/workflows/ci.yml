@@ -75,7 +75,7 @@ jobs:
             ["m68k", "linux/m68k"],
             ["sh4", "linux/sh4"]
           ]'
-          disabled_codename='["experimental"]'
+          disabled_codename='["experimental", "slink", "hamm"]'
           disabled_arches='[
             "hurd-amd64",
             "hurd-i386",
@@ -85,7 +85,17 @@ jobs:
             "s390",
             "x32"
           ]'
-          known_failures='[]'
+          known_failures='[
+            ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/79"],
+            ["sid", "m68k", "https://github.com/vicamo/docker-brew-debian/issues/79"],
+            ["jessie", "arm64", "https://github.com/vicamo/docker-brew-debian/issues/80"],
+            ["jessie", "ppc64el", "https://github.com/vicamo/docker-brew-debian/issues/81"],
+            ["etch", "m68k", "https://github.com/vicamo/docker-brew-debian/issues/82"],
+            ["woody", "mips", "https://github.com/vicamo/docker-brew-debian/issues/84"],
+            ["woody", "mipsel", "https://github.com/vicamo/docker-brew-debian/issues/84"],
+            ["woody", "powerpc", "https://github.com/vicamo/docker-brew-debian/issues/83"],
+            ["potato", "powerpc", "https://github.com/vicamo/docker-brew-debian/issues/84"]
+          ]'
           pin_timestamp='[
             ["buster", "armel", "2024/04/13 14:49:39"],
             ["buster", "mips", "2024/04/13 14:49:39"],
@@ -188,8 +198,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          repository: ${{ github.repository }}
-          ref: helper/20240509
+          repository: vicamo/docker_debuerreotype
+          ref: 20250201
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -207,6 +217,7 @@ jobs:
         with:
           name: debuerreotype
           path: /tmp/debuerreotype.tar
+          retention-days: 1
 
   per-suite:
     name: Per Suite
