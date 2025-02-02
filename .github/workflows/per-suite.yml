@@ -106,14 +106,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          repository: ${{ github.repository }}
-          ref: helper/20240509
+          repository: vicamo/docker_debuerreotype
+          ref: 20250201
           path: debuerreotype
 
       - name: Debuerreotype
         id: debuerreotype
         working-directory: debuerreotype
         continue-on-error: ${{ matrix.known_failure != '' }}
+        timeout-minutes: 20
         run: |
           mkdir output
           output_dir="output/ubuntu/${ARCH}/${CODENAME}"
