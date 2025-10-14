@@ -108,7 +108,6 @@ jobs:
             ["precise", "powerpc", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/10"],
             ["saucy", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["trusty", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/19"],
-            ["trusty", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["trusty", "powerpc", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/6"],
             ["utopic", "amd64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/8"],
             ["utopic", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
@@ -126,7 +125,6 @@ jobs:
             ["warty", "powerpc", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/13"],
             ["wily", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["wily", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
-            ["xenial", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["yakkety", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["zesty", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["zesty", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"]
