@@ -72,14 +72,14 @@ jobs:
     steps:
       - name: Set up QEMU (docker/setup-qemu-action)
         if:
-          matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
-          && matrix.arch != 'lpia'
+          matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch !=
+          'amd64v3' && matrix.arch != 'i386' && matrix.arch != 'lpia'
         uses: docker/setup-qemu-action@v3
 
       - name: Set up QEMU (Ubuntu)
         if:
-          matrix.qemu != '' && matrix.arch != 'amd64' && matrix.arch != 'i386'
-          && matrix.arch != 'lpia'
+          matrix.qemu != '' && matrix.arch != 'amd64' && matrix.arch !=
+          'amd64v3' && matrix.arch != 'i386' && matrix.arch != 'lpia'
         run: |
           sudo apt-get update -q
           sudo apt-get install -yq binfmt-support qemu-user-static

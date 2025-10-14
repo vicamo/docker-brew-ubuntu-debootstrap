@@ -50,6 +50,7 @@ jobs:
         run: |
           platforms='[
             ["amd64", "linux/amd64"],
+            ["amd64v3", "linux/amd64/v3"],
             ["arm", "linux/arm"],
             ["arm64", "linux/arm64"],
             ["armel", "linux/arm/v5"],
