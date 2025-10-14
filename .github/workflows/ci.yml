@@ -126,7 +126,6 @@ jobs:
             ["warty", "powerpc", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/13"],
             ["wily", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["wily", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
-            ["xenial", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/21"],
             ["xenial", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["yakkety", "ppc64el", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
             ["zesty", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
