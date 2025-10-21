@@ -86,8 +86,6 @@ jobs:
             "x32"
           ]'
           known_failures='[
-            ["sid", "loong64", "https://github.com/vicamo/docker-brew-debian/issues/79"],
-            ["sid", "m68k", "https://github.com/vicamo/docker-brew-debian/issues/79"],
             ["jessie", "arm64", "https://github.com/vicamo/docker-brew-debian/issues/80"],
             ["jessie", "ppc64el", "https://github.com/vicamo/docker-brew-debian/issues/81"],
             ["etch", "m68k", "https://github.com/vicamo/docker-brew-debian/issues/82"],
