@@ -94,7 +94,13 @@ jobs:
             ["woody", "powerpc", "https://github.com/vicamo/docker-brew-debian/issues/83"],
             ["potato", "powerpc", "https://github.com/vicamo/docker-brew-debian/issues/84"]
           ]'
-          pin_timestamp='[]'
+          pin_timestamp='[
+            ["bullseye", "armel", "2025-07-21 14:30:34"],
+            ["bullseye", "mips64el", "2025-07-21 14:30:34"],
+            ["bullseye", "mipsel", "2025-07-21 14:30:34"],
+            ["bullseye", "ppc64el", "2025-07-21 14:30:34"],
+            ["bullseye", "s390x", "2025-07-21 14:30:34"]
+          ]'
           pin_qemu='[
             ["any", "alpha", "deb"],
             ["any", "hppa", "deb"],
