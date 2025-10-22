@@ -107,7 +107,6 @@ jobs:
             ["precise", "armel", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/10"],
             ["precise", "powerpc", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/10"],
             ["saucy", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
-            ["trusty", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/19"],
             ["trusty", "powerpc", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/6"],
             ["utopic", "amd64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/8"],
             ["utopic", "arm64", "https://github.com/vicamo/docker-brew-ubuntu-debootstrap/issues/7"],
