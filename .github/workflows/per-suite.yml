@@ -93,7 +93,7 @@ jobs:
         run: ls -al /proc/sys/fs/binfmt_misc
 
       - name: Download debuerreotype image tarball
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: debuerreotype
           path: /tmp
@@ -103,17 +103,18 @@ jobs:
           docker images -a
 
       - name: Checkout Debuerreotype
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
-          repository: ${{ github.repository }}
-          ref: helper/20240509
+          repository: vicamo/docker_debuerreotype
+          ref: 20251021
           path: debuerreotype
 
       - name: Debuerreotype
         id: debuerreotype
         working-directory: debuerreotype
         continue-on-error: ${{ matrix.known_failure != '' }}
+        timeout-minutes: 20
         run: |
           mkdir output
           output_dir="output/ubuntu/${ARCH}/${CODENAME}"
@@ -166,7 +167,7 @@ jobs:
     env:
       ARCHES: ${{ inputs.architectures }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           pattern: ${{ env.CODENAME }}-*
 

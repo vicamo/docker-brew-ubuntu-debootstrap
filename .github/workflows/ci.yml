@@ -225,11 +225,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Debuerreotype
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
-          repository: ${{ github.repository }}
-          ref: helper/20240509
+          repository: vicamo/docker_debuerreotype
+          ref: 20251021
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -247,6 +247,7 @@ jobs:
         with:
           name: debuerreotype
           path: /tmp/debuerreotype.tar
+          retention-days: 1
 
   per-suite:
     name: Per Suite
