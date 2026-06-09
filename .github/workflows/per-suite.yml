@@ -74,7 +74,7 @@ jobs:
         if:
           matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch !=
           'amd64v3' && matrix.arch != 'i386' && matrix.arch != 'lpia'
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up QEMU (Ubuntu)
         if:
