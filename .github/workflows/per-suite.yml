@@ -66,7 +66,7 @@ jobs:
       PLATFORM: ${{ matrix.platform }}
       USE_PORTS: ${{ matrix.use_ports && 'true' || 'false' }}
       KNOWN_FAILURE: ${{ matrix.known_failure }}
-      # Use the snapshot from yesterday to preven under sync.
+      # Use the snapshot from yesterday to prevent under sync.
       SNAPSHOT_DATE: ${{ matrix.timestamp || 'yesterday' }}
       INCLUDE_PKGS: ${{ matrix.pkgs }}
     steps:
@@ -74,7 +74,7 @@ jobs:
         if:
           matrix.qemu == '' && matrix.arch != 'amd64' && matrix.arch !=
           'amd64v3' && matrix.arch != 'i386' && matrix.arch != 'lpia'
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up QEMU (Ubuntu)
         if:
@@ -85,7 +85,7 @@ jobs:
           sudo apt-get install -yq binfmt-support qemu-user-static
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           version: v0.12.0
 
@@ -93,7 +93,7 @@ jobs:
         run: ls -al /proc/sys/fs/binfmt_misc
 
       - name: Download debuerreotype image tarball
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           name: debuerreotype
           path: /tmp
@@ -103,11 +103,11 @@ jobs:
           docker images -a
 
       - name: Checkout Debuerreotype
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
           repository: vicamo/docker_debuerreotype
-          ref: 20251021
+          ref: 20260609
           path: debuerreotype
 
       - name: Debuerreotype
@@ -153,7 +153,7 @@ jobs:
                   --file - "${{ steps.debuerreotype.outputs.output_dir}}"
           docker run --rm "${tag}" apt-get update
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ steps.debuerreotype.outcome == 'success' }}
         with:
           name: ${{ env.CODENAME }}-${{ env.ARCH }}-rootfs
@@ -167,7 +167,7 @@ jobs:
     env:
       ARCHES: ${{ inputs.architectures }}
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           pattern: ${{ env.CODENAME }}-*
 
@@ -184,20 +184,20 @@ jobs:
           echo "platforms=${platforms}" | tee -a "${GITHUB_OUTPUT}"
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           platforms: ${{ steps.platforms.outputs.platforms }}
 
       - name: Login to Docker Hub
         if: ${{ !inputs.dry_run }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ inputs.repository }}
         env:
