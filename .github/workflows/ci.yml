@@ -29,6 +29,7 @@ concurrency:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   matrix:
@@ -222,11 +223,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Debuerreotype
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           repository: vicamo/docker_debuerreotype
-          ref: 20260609
+          ref: 20260710
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -258,8 +259,8 @@ jobs:
         include: ${{ fromJSON(needs.matrix.outputs.codenames) }}
     uses: ./.github/workflows/per-suite.yml
     secrets:
-      username: ${{ secrets.DOCKERHUB_USERNAME }}
-      password: ${{ secrets.DOCKERHUB_TOKEN }}
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
     with:
       distribution: ${{ matrix.distribution }}
       release: ${{ matrix.release }}
@@ -267,7 +268,7 @@ jobs:
       suite: ${{ matrix.suite }}
       active: ${{ matrix.active }}
       architectures: ${{ matrix.architectures }}
-      repository: 'vicamo/ubuntu'
+      repository: 'ghcr.io/vicamo/ubuntu'
       dry_run:
         ${{ github.ref_name != 'main' || (github.event_name ==
         'workflow_dispatch' && inputs.dry_run) }}
