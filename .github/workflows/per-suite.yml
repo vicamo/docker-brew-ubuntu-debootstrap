@@ -46,7 +46,7 @@ permissions:
   packages: write
 
 env:
-  DEBUERREOTYPE_IMAGE: ghcr.io/vicamo/debuerreotype:0.18-dev-20260711
+  DEBUERREOTYPE_IMAGE: ghcr.io/vicamo/debuerreotype:0.18-dev-20261026
   DISTRO: ${{ inputs.distribution }}
   RELEASE: ${{ inputs.release }}
   CODENAME: ${{ inputs.codename }}
